@@ -175,7 +175,7 @@ public class JPanelAutoLevel extends javax.swing.JPanel implements IGUIEvent {
                             Point2D p = trans.transform(new Point2D.Double((double)rect.x + (x + 0.5) * w,
                                                                            (double)rect.y + (y+0.5) * h),
                                                                             null);
-                            double z        =   data.al.getdZ(p);
+                            double z        =   data.al.getdZ(p, true);
                             double relative =   (z-min)/delta;
                             relative = Tools.adjustDouble(relative, 0, 1);
                             
@@ -668,7 +668,7 @@ public class JPanelAutoLevel extends javax.swing.JPanel implements IGUIEvent {
         Point2D pos = trans.transform(new Point2D.Double(evt.getX(), evt.getY()), null);
         if(al.isLeveled())
         {
-            JOptionPane.showMessageDialog(this, Tools.dtostr(al.getdZ(pos)));
+            JOptionPane.showMessageDialog(this, Tools.dtostr(al.getdZ(pos, false)));
         }
         else
         {

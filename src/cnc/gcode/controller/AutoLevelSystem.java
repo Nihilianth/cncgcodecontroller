@@ -142,7 +142,7 @@ public class AutoLevelSystem implements java.io.Serializable{
     }
     
     
-    public double getdZ(Point2D p)
+    public double getdZ(Point2D p, boolean draw)
     {
         if(isLeveled() == false || points.length == 0 || points[0].length == 0)
         {
@@ -163,13 +163,16 @@ public class AutoLevelSystem implements java.io.Serializable{
             return 0.0;
         }
         
-        // No interpolation if our point is outside the probed area 
-        Point2D.Double minPt = points[0][0].getPoint();
-        Point2D.Double maxPt = points[points.length - 1][points[points.length - 1].length - 1].getPoint();
-        
-        if (minPt.x - p.getX() > 0.0 || minPt.y - p.getY() > 0.0 ||
-            maxPt.x - p.getX() < 0.0 || maxPt.y - p.getY() < 0.0)
-           return 0.0;
+        // When Drawing the AL Panel - No interpolation if our point is outside the probed area 
+        if (draw)
+        {
+            Point2D.Double minPt = points[0][0].getPoint();
+            Point2D.Double maxPt = points[points.length - 1][points[points.length - 1].length - 1].getPoint();
+            
+           if (minPt.x - p.getX() > 0.0 || minPt.y - p.getY() > 0.0 ||
+               maxPt.x - p.getX() < 0.0 || maxPt.y - p.getY() < 0.0)
+                return 0.0;
+        }
 
         //direct hit!
         if(Math.abs(points[p0X][p0Y].getPoint().getX() - p.getX()) < 0.00001 
@@ -225,7 +228,7 @@ public class AutoLevelSystem implements java.io.Serializable{
     
     public static double correctZ(double x, double y, double z)
     {
-        double d = al.getdZ(new Point2D.Double(x, y))-DatabaseV2.ALZERO.getsaved();
+        double d = al.getdZ(new Point2D.Double(x, y), false)-DatabaseV2.ALZERO.getsaved();
         
         if(Double.isNaN(d))
         {
